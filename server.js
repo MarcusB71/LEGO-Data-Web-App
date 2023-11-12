@@ -17,39 +17,48 @@ const express = require('express');
 const app = express();
 const HTTP_PORT = 8080;
 
+app.set('view engine', 'ejs');
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/home.html'));
+  res.render('home');
 });
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/about.html'));
+  res.render('about');
 });
 
 app.get('/lego/sets', async (req, res) => {
   try {
     if (req.query.theme) {
-      const idSets = await legoData.getSetsByTheme(req.query.theme);
-      res.send(idSets);
+      const allSets = await legoData.getSetsByTheme(req.query.theme);
+      res.render('sets', { allSets: allSets });
     } else {
       const allSets = await legoData.getAllSets();
-      res.send(allSets);
+      res.render('sets', { allSets: allSets });
     }
   } catch (err) {
-    console.log(err);
+    res
+      .status(404)
+      .render('404', { message: 'No Sets found for a matching theme' });
   }
 });
 app.get('/lego/sets/:id', async (req, res) => {
   try {
     const idSets = await legoData.getSetByNum(req.params.id);
-    res.send(idSets);
+    res.render('set', { set: idSets });
   } catch (err) {
     console.log(err);
+    res
+      .status(404)
+      .render('404', { message: 'No Sets found for a specific set num' });
   }
 });
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '/views/404.html'));
+  res.status(404).render('404', {
+    message: 'No view matched for a specific route',
+  });
 });
 async function startServer() {
   await legoData.initialize();
