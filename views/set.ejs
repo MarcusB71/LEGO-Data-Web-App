@@ -31,10 +31,10 @@
       <div class="hero rounded-lg p-6 bg-base-200">
         <div class="hero-content text-center">
           <div class="max-w-md">
-            <h1 class="text-5xl font-bold"><%=set[0].name%></h1>
+            <h1 class="text-5xl font-bold"><%=set.name%></h1>
             <p class="py-6">
               Below, you will find detailed information about the set:
-              <%=set[0].name%>
+              <%=set.name%>
             </p>
           </div>
         </div>
@@ -45,20 +45,25 @@
         <div>
           <img
             class="w-full rounded-lg"
-            src="<%=set[0].img_url%>"
+            src="<%=set.img_url%>"
             alt="Squat Rack"
           />
         </div>
         <div class="prose">
-          <span class="font-bold">Set Name: </span> <%=set[0].name%> <br />
-          <span class="font-bold">Year Released: </span> <%=set[0].year%> <br />
-          <span class="font-bold">Theme: </span> <%=set[0].theme%> <br />
-          <span class="font-bold">Number of Parts: </span> <%=set[0].num_parts%>
+          <span class="font-bold">Set Name: </span> <%=set.name%> <br />
+          <span class="font-bold">Year Released: </span> <%=set.year%> <br />
+          <span class="font-bold">Theme: </span> <%=set.Theme.name%> <br />
+          <span class="font-bold">Number of Parts: </span> <%=set.num_parts%>
           <br />
           <br />
           <span id="quote"> </span>
           <br />
           <br />
+          <a
+            href="/lego/editSet/<%=set.set_num%>"
+            class="btn btn-primary btn-sm"
+            >EDIT SET: <%= set.name%></a
+          >
           <a
             href="#"
             class="btn btn-primary btn-sm"
